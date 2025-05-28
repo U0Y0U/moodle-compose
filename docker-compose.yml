@@ -1,0 +1,35 @@
+services:
+  moodle:
+    image: bitnami/moodle
+    container_name: moodle
+    ports:
+      - "80:8080"
+    environment:
+      - MOODLE_DATABASE_HOST=moodledb
+      - MOODLE_DATABASE_USER=uoyouuser
+      - MOODLE_DATABASE_PASSWORD=uoyoupass
+      - MOODLE_DATABASE_NAME=uoyoudata
+      - MOODLE_DATABASE_PORT_NUMBER=3306
+      - MOODLE_USERNAME=uoyou
+      - MOODLE_PASSWORD=P@ssw0rd
+    volumes:
+      - vmoodle:/bitnami/moodle
+      - vmoodledata:/bitnami/moodledata
+    restart: unless-stopped
+    depends_on:
+      - moodledb
+  moodledb:
+    image: bitnami/mariadb
+    container_name: moodledb
+    environment:
+      - MARIADB_ROOT_PASSWORD=P@ssw0rd123
+      - MARIADB_USER=uoyouuser
+      - MARIADB_PASSWORD=uoyoupass
+      - MARIADB_DATABASE=uoyoudata
+    volumes:
+      - vmariadb:/bitnami/mariadb
+    restart: unless-stopped
+volumes:
+  vmoodle:
+  vmoodledata:
+  vmariadb:
